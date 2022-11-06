@@ -1,10 +1,10 @@
 local keymaps = {
     ['n'] = {
         -- normal mode
-        ['<C-h>'] = { ':wincmd h<CR>' },
-        ['<C-j>'] = { ':wincmd j<CR>' },
-        ['<C-k>'] = { ':wincmd k<CR>' },
-        ['<C-l>'] = { ':wincmd l<CR>' },
+        ['<C-h>'] = { ':wincmd h<CR>', "Window to the left" },
+        ['<C-j>'] = { ':wincmd j<CR>', "Window on the bottom" },
+        ['<C-k>'] = { ':wincmd k<CR>', "Window on the top" },
+        ['<C-l>'] = { ':wincmd l<CR>', "Window on the right" },
         ['L'] = { ':bNext<CR>', 'Next buffer' },
         ['H'] = { ':bprev<CR>', 'Previous buffer' },
         ['<leader>e'] = { ':Neotree toggle<CR>', 'Toggle NeoTree' },
