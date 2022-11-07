@@ -21,6 +21,11 @@ return require('packer').startup(function(use)
     use { 'nvim-treesitter/nvim-treesitter' }
     use { 'folke/which-key.nvim' }
     use {
+        'famiu/bufdelete.nvim',
+        module = 'bufdelete',
+        cmd = { 'Bdelete', 'Bwipeout' }
+    }
+    use {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
         requires = {
