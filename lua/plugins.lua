@@ -11,6 +11,7 @@ return require('packer').startup(function(use)
     use { 'neovim/nvim-lspconfig' }
     use { 'lvimuser/lsp-inlayhints.nvim' }
     use { 'hrsh7th/cmp-nvim-lsp' }
+    use { 'hrsh7th/cmp-path' }
     use { 'hrsh7th/cmp-buffer' }
     use { 'hrsh7th/nvim-cmp' }
     use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
@@ -20,6 +21,9 @@ return require('packer').startup(function(use)
     use { 'stevearc/dressing.nvim' }
     use { 'nvim-treesitter/nvim-treesitter' }
     use { 'folke/which-key.nvim' }
+    use { 'RRethy/vim-illuminate' }
+    use { 'numToStr/Comment.nvim' }
+    use { 'lukas-reineke/indent-blankline.nvim' }
     use {
         'famiu/bufdelete.nvim',
         module = 'bufdelete',

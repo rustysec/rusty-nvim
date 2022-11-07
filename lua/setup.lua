@@ -58,6 +58,7 @@ local function setup_completion()
             { name = 'cmp-buffer' },
             { name = 'luasnip' },
             { name = 'nvim_lsp_signature_help' },
+            { name = 'cmb-path' },
         },
         mapping = cmp.mapping.preset.insert({
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -110,6 +111,9 @@ function M.setup(configs)
     require('neo-tree').setup(configs["neo-tree"])
     require('lualine').setup(configs.lualine)
     require('gitsigns').setup()
+    require('Comment').setup()
+    require("indent_blankline").setup()
+    require('illuminate').configure()
 
     setup_completion()
     setup_lsp(configs)
