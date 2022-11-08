@@ -58,7 +58,7 @@ local function setup_completion()
             { name = 'cmp-buffer' },
             { name = 'luasnip' },
             { name = 'nvim_lsp_signature_help' },
-            { name = 'cmb-path' },
+            { name = 'cmp-path' },
         },
         mapping = cmp.mapping.preset.insert({
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -74,12 +74,19 @@ local function setup_lsp(configs)
     local lsp_status = require('lsp-status')
     lsp_status.register_progress()
 
+    local capabilities = vim.tbl_deep_extend(
+        'force',
+        lsp_status.capabilities,
+        require('cmp_nvim_lsp').default_capabilities()
+    )
+
+
     local lsp_servers = { 'rust_analyzer', 'sumneko_lua', 'tsserver' }
 
     for _, lsp_server in pairs(lsp_servers) do
         local conf = configs.lsp[lsp_server] or {}
         conf.on_attach = lsp_status.on_attach
-        conf.capabilities = lsp_status.capabilities
+        conf.capabilities = capabilities
         require('lspconfig')[lsp_server].setup(conf)
     end
 
