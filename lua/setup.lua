@@ -71,6 +71,12 @@ local function setup_completion()
 end
 
 local function setup_lsp(configs)
+    local lsp_servers = { 'rust_analyzer', 'sumneko_lua', 'tsserver' }
+
+    require('mason-lspconfig').setup({
+        ensure_installed = lsp_servers
+    })
+
     local lsp_status = require('lsp-status')
     lsp_status.register_progress()
 
@@ -79,9 +85,6 @@ local function setup_lsp(configs)
         lsp_status.capabilities,
         require('cmp_nvim_lsp').default_capabilities()
     )
-
-
-    local lsp_servers = { 'rust_analyzer', 'sumneko_lua', 'tsserver' }
 
     for _, lsp_server in pairs(lsp_servers) do
         local conf = configs.lsp[lsp_server] or {}
@@ -115,7 +118,7 @@ function M.setup(configs)
     require('onedark').setup(configs.onedark)
     require('onedark').load()
     require('lightspeed').setup(configs.lightspeed or {})
-    require('neo-tree').setup(configs["neo-tree"])
+    require('neo-tree').setup(configs["neo-tree"] or {})
     require('lualine').setup(configs.lualine)
     require('gitsigns').setup()
     require('Comment').setup()

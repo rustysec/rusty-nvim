@@ -7,7 +7,8 @@ return require('packer').startup(function(use)
     use { 'ggandor/lightspeed.nvim' }
     use { 'nvim-lua/plenary.nvim' }
     use { 'nvim-lua/lsp-status.nvim' }
-    use { "williamboman/mason.nvim" }
+    use { 'williamboman/mason.nvim' }
+    use { 'williamboman/mason-lspconfig.nvim' }
     use { 'neovim/nvim-lspconfig' }
     use { 'lvimuser/lsp-inlayhints.nvim' }
     use { 'hrsh7th/cmp-nvim-lsp' }
