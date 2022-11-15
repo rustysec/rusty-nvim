@@ -21,7 +21,8 @@ local keymaps = {
         ['<leader>ff'] = { ':Telescope find_files<CR>', 'Files' },
         ['<leader>fb'] = { ':Telescope buffers<CR>', 'Buffers' },
         ['<leader>fm'] = { ':Telescope marks<CR>', 'Marks' },
-        ['<leader>fw'] = { ':Telescope grep_string<CR>', 'String' },
+        ['<leader>fw'] = { ':Telescope live_grep<CR>', 'String' },
+        ['<leader>fs'] = { ':Telescope grep_string<CR>', 'String' },
         ['<leader>ss'] = { ':set spell!<CR>', 'Toggle spelling' },
     },
     ['v'] = {
