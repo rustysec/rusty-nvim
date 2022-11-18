@@ -1,6 +1,7 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
+    use { 'kyazdani42/nvim-web-devicons' }
     use { 'wbthomason/packer.nvim' }
     use { 'navarasu/onedark.nvim' }
     use { 'tpope/vim-repeat' }
@@ -25,6 +26,8 @@ return require('packer').startup(function(use)
     use { 'RRethy/vim-illuminate' }
     use { 'numToStr/Comment.nvim' }
     use { 'lukas-reineke/indent-blankline.nvim' }
+    use { 'tamago324/lir.nvim' }
+    use { 'tamago324/lir-git-status.nvim' }
     use {
         'famiu/bufdelete.nvim',
         module = 'bufdelete',
