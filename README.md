@@ -17,6 +17,8 @@ There is nothing magical here, just a simply organized and easy to configure.
 * rust
 * lua
 * javascript/typescript
+* go (gopls)
+* c# (omnisharp)
 
 ## Features
 * Mason
@@ -26,7 +28,18 @@ There is nothing magical here, just a simply organized and easy to configure.
     * Inlay hints
     * Code formatting
     * Completions
+    * Lualine integration
 * Which-Key
 * Nvim Surround
 * Lightspeed
 * Lualine + Global status bar
+* Dressing UI
+* Illuminate
+* Lir file manager
+* Focus
+* Cinnamon motions (for fun)
+* Leaf theme (matches kde plasma)
+
+## Some Configs
+I tried to include most of the user tunable stuff in `init.lua`, there is a `lua/user_config` directory where some things
+that might be install dependent can go, the `init.lua` in that directory will not be git committed.

@@ -15,6 +15,7 @@ local function setup_inlay_hints()
             require('lsp-inlayhints').on_attach(client, bufnr, true)
         end,
     })
+    vim.cmd('hi! link LspInlayHint Comment')
 end
 
 local function setup_yank_highlight()
@@ -38,8 +39,9 @@ local function setup_auto_format()
             '*.toml',
             '*.go',
             '*.lua',
-            '.js',
-            '.ts',
+            '*.js',
+            '*.ts',
+            '*.cs',
         },
         command = 'silent! lua vim.lsp.buf.format({ async = false })',
     })
@@ -71,13 +73,34 @@ local function setup_completion()
 end
 
 local function setup_lsp(configs)
-    local lsp_servers = { 'rust_analyzer', 'sumneko_lua', 'tsserver', 'omnisharp' }
+    local lsp_servers = { 'rust_analyzer', 'sumneko_lua', 'tsserver', 'omnisharp', 'gopls' }
 
     require('mason-lspconfig').setup({
         ensure_installed = lsp_servers
     })
 
     local lsp_status = require('lsp-status')
+
+    lsp_status.config({
+        status_symbol = '[LSP]',
+        select_symbol = function(cursor_pos, symbol)
+            if symbol.valueRange then
+                local value_range = {
+                    ["start"] = {
+                        character = 0,
+                        line = vim.fn.byte2line(symbol.valueRange[1])
+                    },
+                    ["end"] = {
+                        character = 0,
+                        line = vim.fn.byte2line(symbol.valueRange[2])
+                    }
+                }
+
+                return require("lsp-status.util").in_range(cursor_pos, value_range)
+            end
+        end
+    })
+
     lsp_status.register_progress()
 
     local capabilities = vim.tbl_deep_extend(
@@ -110,6 +133,9 @@ local function setup_which_key(config)
         ['<leader>l'] = {
             name = 'LSP...',
         },
+        ['<leader>v'] = {
+            name = 'Git...',
+        },
     })
 end
 
@@ -139,7 +165,7 @@ local function setup_lir()
             ['D'] = actions.delete,
 
             ['J'] = function()
-                mark_actions.toggle_mark()
+                mark_actions.toggle_mark("n")
                 vim.cmd('normal! j')
             end,
             ['C'] = clipboard_actions.copy,
@@ -189,10 +215,62 @@ local function setup_lir()
 
 end
 
+local function setup_leaf()
+    local colors = require("leaf.colors").setup()
+
+    require("leaf").setup({
+        underlineStyle = "undercurl",
+        commentStyle = "NONE",
+        functionStyle = "NONE",
+        keywordStyle = "italic",
+        statementStyle = "bold",
+        typeStyle = "NONE",
+        variablebuiltinStyle = "italic",
+        transparent = true,
+        colors = {
+            bg_normal = "NONE",
+        },
+        overrides = {
+            TelescopeBorder = { link = "Normal" },
+            WinSeparator = { link = "Comment" },
+            FloatTitle = { link = "Warning" },
+            FloatBoarder = { link = "Warning" },
+            Float = { fg = colors.fg_normal, bg = "NONE", },
+            lualine_c_normal = { link = "CursorLine" },
+        },
+        theme = "dark", -- default, based on vim.o.background, alternatives: "light", "dark"
+        contrast = "high", -- default, alternatives: "medium", "high"
+    })
+
+    vim.cmd("colorscheme leaf")
+end
+
+function setup_cinnamon()
+    require('cinnamon').setup({
+        -- KEYMAPS:
+        default_keymaps = true, -- Create default keymaps.
+        extra_keymaps = true, -- Create extra keymaps.
+        extended_keymaps = false, -- Create extended keymaps.
+        override_keymaps = true, -- The plugin keymaps will override any existing keymaps.
+
+        -- OPTIONS:
+        always_scroll = false, -- Scroll the cursor even when the window hasn't scrolled.
+        centered = true, -- Keep cursor centered in window when using window scrolling.
+        disabled = false, -- Disables the plugin.
+        default_delay = 7, -- The default delay (in ms) between each line when scrolling.
+        hide_cursor = false, -- Hide the cursor while scrolling. Requires enabling termguicolors!
+        horizontal_scroll = true, -- Enable smooth horizontal scrolling when view shifts left or right.
+        max_length = -1, -- Maximum length (in ms) of a command. The line delay will be
+        -- re-calculated. Setting to -1 will disable this option.
+        scroll_limit = 150, -- Max number of lines moved before scrolling is skipped. Setting
+        -- to -1 will disable this option.
+    })
+end
+
 function M.setup(configs)
     require('mason').setup()
-    require('onedark').setup(configs.onedark)
-    require('onedark').load()
+    -- require('onedark').setup(configs.onedark)
+    -- require('onedark').load()
     require('lightspeed').setup(configs.lightspeed or {})
     require('neo-tree').setup(configs["neo-tree"] or {})
     require('lualine').setup(configs.lualine)
@@ -200,14 +278,44 @@ function M.setup(configs)
     require('Comment').setup()
     require("indent_blankline").setup()
     require('illuminate').configure()
+    require('focus').setup()
+    require("dressing").setup({
+        input = {
+            default_prompt = "➤ ",
+            win_options = { winhighlight = "Normal:Comment,NormalNC:Comment" },
+        },
+        select = {
+            backend = { "telescope", "builtin" },
+            builtin = { win_options = { winhighlight = "Normal:Normal,NormalNC:Normal" } },
+        },
+    })
 
+    setup_leaf()
     setup_lir()
     setup_completion()
     setup_lsp(configs)
     setup_inlay_hints()
     setup_yank_highlight()
     setup_auto_format()
+    setup_cinnamon()
     setup_which_key(configs['which-key'])
+
+    vim.cmd([[ hi! link lualine_c_inactive Comment ]])
+    vim.cmd([[ hi! link lualine_c_normal CursorLine ]])
+
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_normal CursorLine ]])
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_command CursorLine ]])
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_insert CursorLine ]])
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_replace CursorLine ]])
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_normal CursorLine ]])
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_command CursorLine ]])
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_insert CursorLine ]])
+    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_replace CursorLine ]])
+
+    vim.cmd([[ hi! link lualine_y_filetype_DevIconDefault_normal CursorLine ]])
+    vim.cmd([[ hi! link lualine_y_filetype_DevIconDefault_command CursorLine ]])
+    vim.cmd([[ hi! link lualine_y_filetype_DevIconRs_normal CursorLine ]])
+    vim.cmd([[ hi! link lualine_y_filetype_DevIconRs_command CursorLine ]])
 end
 
 return M

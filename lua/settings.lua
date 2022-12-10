@@ -45,3 +45,5 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 vim.opt.spelllang = "en"
 
 vim.opt.timeoutlen = 200
+
+vim.wo.cursorline = true

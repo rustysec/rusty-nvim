@@ -1,9 +1,9 @@
-vim.cmd [[packadd packer.nvim]]
-
 return require('packer').startup(function(use)
+
     use { 'kyazdani42/nvim-web-devicons' }
     use { 'wbthomason/packer.nvim' }
-    use { 'navarasu/onedark.nvim' }
+    -- use { 'navarasu/onedark.nvim' }
+    use { 'daschw/leaf.nvim' }
     use { 'tpope/vim-repeat' }
     use { 'ggandor/lightspeed.nvim' }
     use { 'nvim-lua/plenary.nvim' }
@@ -34,12 +34,12 @@ return require('packer').startup(function(use)
         cmd = { 'Bdelete', 'Bwipeout' }
     }
     use {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v2.x",
+        'nvim-neo-tree/neo-tree.nvim',
+        branch = 'v2.x',
         requires = {
-            "nvim-lua/plenary.nvim",
-            "kyazdani42/nvim-web-devicons",
-            "MunifTanjim/nui.nvim",
+            'nvim-lua/plenary.nvim',
+            'kyazdani42/nvim-web-devicons',
+            'MunifTanjim/nui.nvim',
         }
     }
     use {
@@ -62,4 +62,7 @@ return require('packer').startup(function(use)
             require('nvim-surround').setup()
         end
     }
+
+    use { 'beauwilliams/focus.nvim' }
+    use { 'declancm/cinnamon.nvim' }
 end)

@@ -5,7 +5,7 @@ local keymaps = {
         ['<C-j>'] = { ':wincmd j<CR>', "Window on the bottom" },
         ['<C-k>'] = { ':wincmd k<CR>', "Window on the top" },
         ['<C-l>'] = { ':wincmd l<CR>', "Window on the right" },
-        ['L'] = { ':bNext<CR>', 'Next buffer' },
+        ['L'] = { ':bnext<CR>', 'Next buffer' },
         ['H'] = { ':bprev<CR>', 'Previous buffer' },
         ['<leader>w'] = { ':w<CR>', 'Save current buffer' },
         ['<leader>c'] = { ':Bdelete<CR>', 'Delete current buffer' },
@@ -26,6 +26,13 @@ local keymaps = {
         ['<leader>fw'] = { ':Telescope live_grep<CR>', 'String' },
         ['<leader>fs'] = { ':Telescope grep_string<CR>', 'String' },
         ['<leader>ss'] = { ':set spell!<CR>', 'Toggle spelling' },
+        ['<leader>sh'] = { '<cmd>lua require("which-key").show("z=")<CR>', 'Spelling suggestions' },
+        ['<leader>vr'] = { ':Gitsigns reset_hunk<CR>', 'Git reset hunk' },
+        ['<leader>vp'] = { ':Gitsigns preview_hunk_inline<CR>', 'Git preview hunk inline' },
+        ['<leader>vP'] = { ':Gitsigns preview_hunk<CR>', 'Git preview hunk' },
+        ['<leader>vn'] = { ':Gitsigns next_hunk<CR>', 'Git next hunk' },
+        ['<leader>vl'] = { ':Gitsigns prev_hunk<CR>', 'Git previous hunk' },
+        ['<leader>vb'] = { ':Gitsigns blame_line<CR>', 'Git blame line' },
     },
     ['v'] = {
         -- visual mode
@@ -34,6 +41,13 @@ local keymaps = {
         -- insert mode
     }
 }
+
+local user_config = {}
+
+local status, plugin = pcall(require, 'user_config')
+if status then
+    user_config = plugin
+end
 
 local configs = {
     ['onedark'] = {
@@ -84,6 +98,7 @@ local configs = {
                         -- target = 'x86_64-pc-windows-gnu',
                         -- target = 'x86_64-apple-darwin',
                         -- target = 'aarch64-apple-darwin',
+                        target = user_config.cargo_target or nil
                     },
                     diagnostics = {
                         disabled = {
@@ -101,14 +116,52 @@ local configs = {
                     },
                 },
             }
+        },
+        ['omnisharp'] = {
+            cmd = { "dotnet", "/home/russ/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" },
+
+            -- Enables support for reading code style, naming convention and analyzer
+            -- settings from .editorconfig.
+            enable_editorconfig_support = true,
+
+            -- If true, MSBuild project system will only load projects for files that
+            -- were opened in the editor. This setting is useful for big C# codebases
+            -- and allows for faster initialization of code navigation features only
+            -- for projects that are relevant to code that is being edited. With this
+            -- setting enabled OmniSharp may load fewer projects and may thus display
+            -- incomplete reference lists for symbols.
+            enable_ms_build_load_projects_on_demand = true,
+
+            -- Enables support for roslyn analyzers, code fixes and rulesets.
+            enable_roslyn_analyzers = true,
+
+            -- Specifies whether 'using' directives should be grouped and sorted during
+            -- document formatting.
+            organize_imports_on_format = true,
+
+            -- Enables support for showing unimported types and unimported extension
+            -- methods in completion lists. When committed, the appropriate using
+            -- directive will be added at the top of the current file. This option can
+            -- have a negative impact on initial completion responsiveness,
+            -- particularly for the first few completion sessions after opening a
+            -- solution.
+            enable_import_completion = true,
+
+            -- Specifies whether to include preview versions of the .NET SDK when
+            -- determining which version to use for project loading.
+            sdk_include_prereleases = true,
+
+            -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
+            -- true
+            analyze_open_documents_only = false,
         }
     },
     ['lualine'] = {
         options = {
             icons_enabled = true,
-            theme = 'onedark',
+            theme = 'leaf',
             component_separators = { left = '', right = '' },
-            section_separators = { left = '', right = '' },
+            section_separators = { left = '', right = '' },
             disabled_filetypes = {
                 statusline = { 'neo-tree' },
                 winbar = { 'neo-tree' },
@@ -118,7 +171,7 @@ local configs = {
             globalstatus = true,
             refresh = {
                 statusline = 1000,
-                tabline = 1000,
+                -- tabline = 1000,
                 winbar = 1000,
             }
         },
@@ -126,18 +179,11 @@ local configs = {
             lualine_a = { 'mode' },
             lualine_b = { 'branch', 'diff', 'diagnostics' },
             lualine_c = { 'require("lsp-status").status()' },
-            lualine_x = { 'filename', 'encoding', 'fileformat', 'filetype' },
+            lualine_x = { 'filename', 'encoding', 'fileformat', 'bo:filetype' },
             lualine_y = { 'progress' },
             lualine_z = { 'location' }
         },
-        inactive_sections = {
-            lualine_a = {},
-            lualine_b = {},
-            lualine_c = { 'filename' },
-            lualine_x = { 'location' },
-            lualine_y = {},
-            lualine_z = {}
-        },
+        inactive_sections = {},
         tabline = {},
         winbar = {
             lualine_a = {},
@@ -196,10 +242,29 @@ local configs = {
                 enabled = true,
                 suggestions = 20,
             }
-        }
+        },
     },
 }
 
+-- Set up packer before anything
+local ensure_packer = function()
+    local fn = vim.fn
+    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+    if fn.empty(fn.glob(install_path)) > 0 then
+        fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+        vim.cmd [[packadd packer.nvim]]
+        return true
+    end
+    return false
+end
+
+local packer_bootstrap = ensure_packer()
+
+if packer_bootstrap then
+    require('packer').sync()
+end
+
+-- Configure neovim!
 require('settings')
 require('plugins')
 require('keymap').setup(keymaps)
