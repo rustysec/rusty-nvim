@@ -33,6 +33,7 @@ return require('packer').startup(function(use)
         module = 'bufdelete',
         cmd = { 'Bdelete', 'Bwipeout' }
     }
+    --[[
     use {
         'nvim-neo-tree/neo-tree.nvim',
         branch = 'v2.x',
@@ -42,6 +43,7 @@ return require('packer').startup(function(use)
             'MunifTanjim/nui.nvim',
         }
     }
+    ]] --
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
         -- or                            , branch = '0.1.x',
@@ -65,5 +67,4 @@ return require('packer').startup(function(use)
 
     use { 'beauwilliams/focus.nvim' }
     use { 'declancm/cinnamon.nvim' }
-    use { 'stevearc/oil.nvim' }
 end)

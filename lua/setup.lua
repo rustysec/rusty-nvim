@@ -149,7 +149,8 @@ local function setup_lir()
         devicons_enable = true,
         mappings = {
             ['l']     = actions.edit,
-            ['<C-s>'] = actions.split,
+            ['<CR>']  = actions.edit,
+            ['<C-h>'] = actions.split,
             ['<C-v>'] = actions.vsplit,
             ['<C-t>'] = actions.tabedit,
 
@@ -168,9 +169,9 @@ local function setup_lir()
                 mark_actions.toggle_mark("n")
                 vim.cmd('normal! j')
             end,
-            ['C'] = clipboard_actions.copy,
-            ['X'] = clipboard_actions.cut,
-            ['P'] = clipboard_actions.paste,
+            ['yy'] = clipboard_actions.copy,
+            ['dd'] = clipboard_actions.cut,
+            ['p'] = clipboard_actions.paste,
         },
         float = {
             winblend = 0,
@@ -267,18 +268,7 @@ function setup_cinnamon()
     })
 end
 
-function M.setup(configs)
-    require('mason').setup()
-    require('onedark').setup(configs.onedark)
-    require('lightspeed').setup(configs.lightspeed or {})
-    require('neo-tree').setup(configs["neo-tree"] or {})
-    require('lualine').setup(configs.lualine)
-    require('gitsigns').setup()
-    require('Comment').setup()
-    require("indent_blankline").setup()
-    require('illuminate').configure()
-    require('focus').setup()
-    require("oil").setup()
+function setup_dressing()
     require("dressing").setup({
         input = {
             default_prompt = "➤ ",
@@ -289,7 +279,21 @@ function M.setup(configs)
             builtin = { win_options = { winhighlight = "Normal:Normal,NormalNC:Normal" } },
         },
     })
+end
 
+function M.setup(configs)
+    require('mason').setup()
+    require('onedark').setup(configs.onedark)
+    require('lightspeed').setup(configs.lightspeed or {})
+    -- require('neo-tree').setup(configs["neo-tree"] or {})
+    require('lualine').setup(configs.lualine)
+    require('gitsigns').setup()
+    require('Comment').setup()
+    require("indent_blankline").setup()
+    require('illuminate').configure()
+    require('focus').setup()
+
+    setup_dressing()
     setup_leaf()
     setup_lir()
     setup_completion()
