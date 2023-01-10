@@ -269,8 +269,7 @@ end
 
 function M.setup(configs)
     require('mason').setup()
-    -- require('onedark').setup(configs.onedark)
-    -- require('onedark').load()
+    require('onedark').setup(configs.onedark)
     require('lightspeed').setup(configs.lightspeed or {})
     require('neo-tree').setup(configs["neo-tree"] or {})
     require('lualine').setup(configs.lualine)
@@ -279,6 +278,7 @@ function M.setup(configs)
     require("indent_blankline").setup()
     require('illuminate').configure()
     require('focus').setup()
+    require("oil").setup()
     require("dressing").setup({
         input = {
             default_prompt = "➤ ",

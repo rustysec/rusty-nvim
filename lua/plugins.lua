@@ -2,7 +2,7 @@ return require('packer').startup(function(use)
 
     use { 'kyazdani42/nvim-web-devicons' }
     use { 'wbthomason/packer.nvim' }
-    -- use { 'navarasu/onedark.nvim' }
+    use { 'navarasu/onedark.nvim' }
     use { 'daschw/leaf.nvim' }
     use { 'tpope/vim-repeat' }
     use { 'ggandor/lightspeed.nvim' }
@@ -65,4 +65,5 @@ return require('packer').startup(function(use)
 
     use { 'beauwilliams/focus.nvim' }
     use { 'declancm/cinnamon.nvim' }
+    use { 'stevearc/oil.nvim' }
 end)

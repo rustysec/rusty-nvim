@@ -5,6 +5,10 @@ local keymaps = {
         ['<C-j>'] = { ':wincmd j<CR>', "Window on the bottom" },
         ['<C-k>'] = { ':wincmd k<CR>', "Window on the top" },
         ['<C-l>'] = { ':wincmd l<CR>', "Window on the right" },
+        ['<C-Left>'] = { ':wincmd h<CR>', "Window to the left" },
+        ['<C-Down>'] = { ':wincmd j<CR>', "Window on the bottom" },
+        ['<C-Up>'] = { ':wincmd k<CR>', "Window on the top" },
+        ['<C-Right>'] = { ':wincmd l<CR>', "Window on the right" },
         ['L'] = { ':bnext<CR>', 'Next buffer' },
         ['H'] = { ':bprev<CR>', 'Previous buffer' },
         ['<leader>w'] = { ':w<CR>', 'Save current buffer' },
@@ -93,11 +97,6 @@ local configs = {
                         buildScripts = {
                             enable = true,
                         },
-                        -- target = 'x86_64-unknown-linux-gnu',
-                        -- target = 'x86_64-unknown-linux-musl',
-                        -- target = 'x86_64-pc-windows-gnu',
-                        -- target = 'x86_64-apple-darwin',
-                        -- target = 'aarch64-apple-darwin',
                         target = user_config.cargo_target or nil
                     },
                     diagnostics = {
@@ -179,7 +178,7 @@ local configs = {
             lualine_a = { 'mode' },
             lualine_b = { 'branch', 'diff', 'diagnostics' },
             lualine_c = { 'require("lsp-status").status()' },
-            lualine_x = { 'filename', 'encoding', 'fileformat', 'bo:filetype' },
+            lualine_x = { { 'filename', path = 1 }, 'encoding', 'fileformat', 'bo:filetype' },
             lualine_y = { 'progress' },
             lualine_z = { 'location' }
         },
@@ -188,7 +187,7 @@ local configs = {
         winbar = {
             lualine_a = {},
             lualine_b = {},
-            lualine_c = { 'filename' },
+            lualine_c = { { 'filename', path = 1 }, 'diagnostics' },
             lualine_x = {},
             lualine_y = {},
             lualine_z = {}
@@ -196,7 +195,7 @@ local configs = {
         inactive_winbar = {
             lualine_a = {},
             lualine_b = {},
-            lualine_c = { 'filename' },
+            lualine_c = { { 'filename', path = 1 }, 'diagnostics' },
             lualine_x = {},
             lualine_y = {},
             lualine_z = {}
