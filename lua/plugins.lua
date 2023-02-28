@@ -1,5 +1,4 @@
 return require('packer').startup(function(use)
-
     use { 'kyazdani42/nvim-web-devicons' }
     use { 'wbthomason/packer.nvim' }
     use { 'navarasu/onedark.nvim' }
@@ -28,25 +27,22 @@ return require('packer').startup(function(use)
     use { 'lukas-reineke/indent-blankline.nvim' }
     use { 'tamago324/lir.nvim' }
     use { 'tamago324/lir-git-status.nvim' }
+    use { 'elkowar/yuck.vim' }
+    use { 'elihunter173/dirbuf.nvim' }
+    use { 'catppuccin/nvim', as = 'catppuccin' }
+    use { 'folke/tokyonight.nvim' }
+    use { 'folke/zen-mode.nvim' }
+    use { 'folke/twilight.nvim' }
+    use { 'declancm/cinnamon.nvim' }
+    use { 'nvim-treesitter/playground' }
+    use { 'beauwilliams/focus.nvim' }
     use {
         'famiu/bufdelete.nvim',
         module = 'bufdelete',
         cmd = { 'Bdelete', 'Bwipeout' }
     }
-    --[[
-    use {
-        'nvim-neo-tree/neo-tree.nvim',
-        branch = 'v2.x',
-        requires = {
-            'nvim-lua/plenary.nvim',
-            'kyazdani42/nvim-web-devicons',
-            'MunifTanjim/nui.nvim',
-        }
-    }
-    ]] --
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
-        -- or                            , branch = '0.1.x',
         requires = {
             { 'nvim-lua/plenary.nvim' }
         }
@@ -64,7 +60,4 @@ return require('packer').startup(function(use)
             require('nvim-surround').setup()
         end
     }
-
-    use { 'beauwilliams/focus.nvim' }
-    use { 'declancm/cinnamon.nvim' }
 end)

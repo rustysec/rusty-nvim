@@ -1,22 +1,21 @@
 local keymaps = {
     ['n'] = {
         -- normal mode
-        ['<C-h>'] = { ':wincmd h<CR>', "Window to the left" },
-        ['<C-j>'] = { ':wincmd j<CR>', "Window on the bottom" },
-        ['<C-k>'] = { ':wincmd k<CR>', "Window on the top" },
-        ['<C-l>'] = { ':wincmd l<CR>', "Window on the right" },
-        ['<C-Left>'] = { ':wincmd h<CR>', "Window to the left" },
-        ['<C-Down>'] = { ':wincmd j<CR>', "Window on the bottom" },
-        ['<C-Up>'] = { ':wincmd k<CR>', "Window on the top" },
-        ['<C-Right>'] = { ':wincmd l<CR>', "Window on the right" },
-        ['L'] = { ':bnext<CR>', 'Next buffer' },
-        ['H'] = { ':bprev<CR>', 'Previous buffer' },
-        ['<leader>w'] = { ':w<CR>', 'Save current buffer' },
-        ['<leader>c'] = { ':Bdelete<CR>', 'Delete current buffer' },
-        -- ['<leader>E'] = { ':Neotree toggle<CR>', 'Toggle NeoTree' },
-        ['<leader>e'] = { ':lua require"lir.float".toggle()<CR>', 'Lir float' },
-        ['<leader>V'] = { ':vsplit<CR>', 'Split vertically' },
-        ['<leader>H'] = { ':split<CR>', 'Split horizontally' },
+        ['<C-h>']      = { ':wincmd h<CR>', "Window to the left" },
+        ['<C-j>']      = { ':wincmd j<CR>', "Window on the bottom" },
+        ['<C-k>']      = { ':wincmd k<CR>', "Window on the top" },
+        ['<C-l>']      = { ':wincmd l<CR>', "Window on the right" },
+        ['<C-Left>']   = { ':wincmd h<CR>', "Window to the left" },
+        ['<C-Down>']   = { ':wincmd j<CR>', "Window on the bottom" },
+        ['<C-Up>']     = { ':wincmd k<CR>', "Window on the top" },
+        ['<C-Right>']  = { ':wincmd l<CR>', "Window on the right" },
+        ['L']          = { ':bnext<CR>', 'Next buffer' },
+        ['H']          = { ':bprev<CR>', 'Previous buffer' },
+        ['<leader>w']  = { ':w<CR>', 'Save current buffer' },
+        ['<leader>c']  = { ':Bdelete<CR>', 'Delete current buffer' },
+        ['<leader>e']  = { ':Dirbuf<CR>', 'Dirbuf' },
+        ['<leader>V']  = { ':vsplit<CR>', 'Split vertically' },
+        ['<leader>H']  = { ':split<CR>', 'Split horizontally' },
         ['<leader>lr'] = { '<cmd>lua vim.lsp.buf.rename()<CR>', 'Rename symbol' },
         ['<leader>la'] = { '<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code actions' },
         ['<leader>ld'] = { '<cmd>lua vim.diagnostic.open_float()<CR>', 'Open diagnostics float' },
@@ -36,6 +35,8 @@ local keymaps = {
         ['<leader>vn'] = { ':Gitsigns next_hunk<CR>', 'Git next hunk' },
         ['<leader>vl'] = { ':Gitsigns prev_hunk<CR>', 'Git previous hunk' },
         ['<leader>vb'] = { ':Gitsigns blame_line<CR>', 'Git blame line' },
+        ['<leader>mz'] = { ':ZenMode<CR>', 'ZenMode' },
+        ['<leader>mt'] = { ':Twilight<CR>', 'Twilight' },
     },
     ['v'] = {
         -- visual mode
@@ -54,11 +55,11 @@ end
 
 local configs = {
     ['onedark'] = {
-        style = 'darker',
+        style = 'cool',
         transparent = true,
     },
     ['lsp'] = {
-        ['sumneko_lua'] = {
+        ['lua_ls'] = {
             settings = {
                 Lua = {
                     runtime = {
