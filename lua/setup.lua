@@ -63,11 +63,11 @@ local function setup_completion()
             { name = 'cmp-path' },
         },
         mapping = cmp.mapping.preset.insert({
-            ['<C-b>'] = cmp.mapping.scroll_docs( -4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.abort(),
-            ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                ['<C-Space>'] = cmp.mapping.complete(),
+                ['<C-e>'] = cmp.mapping.abort(),
+                ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
     })
 end
@@ -86,11 +86,11 @@ local function setup_lsp(configs)
         select_symbol = function(cursor_pos, symbol)
             if symbol.valueRange then
                 local value_range = {
-                    ["start"] = {
+                        ["start"] = {
                         character = 0,
                         line = vim.fn.byte2line(symbol.valueRange[1])
                     },
-                    ["end"] = {
+                        ["end"] = {
                         character = 0,
                         line = vim.fn.byte2line(symbol.valueRange[2])
                     }
@@ -123,16 +123,16 @@ local function setup_which_key(config)
     wk.setup(config)
 
     wk.register({
-        ['<leader>g'] = {
+            ['<leader>g'] = {
             name = 'Goto...',
         },
-        ['<leader>f'] = {
+            ['<leader>f'] = {
             name = 'Find...',
         },
-        ['<leader>l'] = {
+            ['<leader>l'] = {
             name = 'LSP...',
         },
-        ['<leader>v'] = {
+            ['<leader>v'] = {
             name = 'Git...',
         },
     })
@@ -147,30 +147,27 @@ local function setup_lir()
         show_hidden_files = false,
         devicons = { enable = true },
         mappings = {
-            ['l']     = actions.edit,
-            ['<CR>']  = actions.edit,
-            ['<C-h>'] = actions.split,
-            ['<C-v>'] = actions.vsplit,
-            ['<C-t>'] = actions.tabedit,
-
-            ['h']     = actions.up,
-            ['q']     = actions.quit,
-
-            ['K']     = actions.mkdir,
-            ['N']     = actions.newfile,
-            ['R']     = actions.rename,
-            ['@']     = actions.cd,
-            ['Y']     = actions.yank_path,
-            ['.']     = actions.toggle_show_hidden,
-            ['D']     = actions.delete,
-
-            ['J']     = function()
+                ['l'] = actions.edit,
+                ['<CR>'] = actions.edit,
+                ['<C-h>'] = actions.split,
+                ['<C-v>'] = actions.vsplit,
+                ['<C-t>'] = actions.tabedit,
+                ['h'] = actions.up,
+                ['q'] = actions.quit,
+                ['K'] = actions.mkdir,
+                ['N'] = actions.newfile,
+                ['R'] = actions.rename,
+                ['@'] = actions.cd,
+                ['Y'] = actions.yank_path,
+                ['.'] = actions.toggle_show_hidden,
+                ['D'] = actions.delete,
+                ['J'] = function()
                 mark_actions.toggle_mark("n")
                 vim.cmd('normal! j')
             end,
-            ['yy']    = clipboard_actions.copy,
-            ['dd']    = clipboard_actions.cut,
-            ['p']     = clipboard_actions.paste,
+                ['yy'] = clipboard_actions.copy,
+                ['dd'] = clipboard_actions.cut,
+                ['p'] = clipboard_actions.paste,
         },
         float = {
             winblend = 0,
@@ -178,7 +175,6 @@ local function setup_lir()
                 enable = false,
                 highlight_dirname = false
             },
-
             -- -- You can define a function that returns a table to be passed as the third
             -- -- argument of nvim_open_win().
             -- win_opts = function()
@@ -237,7 +233,7 @@ local function setup_leaf()
             Float = { fg = colors.fg_normal, bg = "NONE", },
             lualine_c_normal = { link = "CursorLine" },
         },
-        theme = "dark", -- default, based on vim.o.background, alternatives: "light", "dark"
+        theme = "dark",    -- default, based on vim.o.background, alternatives: "light", "dark"
         contrast = "high", -- default, alternatives: "medium", "high"
     })
 
@@ -247,20 +243,20 @@ end
 local function setup_cinnamon()
     require('cinnamon').setup({
         -- KEYMAPS:
-        default_keymaps = true, -- Create default keymaps.
-        extra_keymaps = true, -- Create extra keymaps.
-        extended_keymaps = false, -- Create extended keymaps.
-        override_keymaps = true, -- The plugin keymaps will override any existing keymaps.
+        default_keymaps = true,    -- Create default keymaps.
+        extra_keymaps = true,      -- Create extra keymaps.
+        extended_keymaps = false,  -- Create extended keymaps.
+        override_keymaps = true,   -- The plugin keymaps will override any existing keymaps.
         -- OPTIONS:
-        always_scroll = false, -- Scroll the cursor even when the window hasn't scrolled.
-        centered = true, -- Keep cursor centered in window when using window scrolling.
-        disabled = false, -- Disables the plugin.
-        default_delay = 7, -- The default delay (in ms) between each line when scrolling.
-        hide_cursor = false, -- Hide the cursor while scrolling. Requires enabling termguicolors!
-        horizontal_scroll = true, -- Enable smooth horizontal scrolling when view shifts left or right.
-        max_length = -1, -- Maximum length (in ms) of a command. The line delay will be
+        always_scroll = false,     -- Scroll the cursor even when the window hasn't scrolled.
+        centered = true,           -- Keep cursor centered in window when using window scrolling.
+        disabled = false,          -- Disables the plugin.
+        default_delay = 7,         -- The default delay (in ms) between each line when scrolling.
+        hide_cursor = false,       -- Hide the cursor while scrolling. Requires enabling termguicolors!
+        horizontal_scroll = false, -- Enable smooth horizontal scrolling when view shifts left or right.
+        max_length = -1,           -- Maximum length (in ms) of a command. The line delay will be
         -- re-calculated. Setting to -1 will disable this option.
-        scroll_limit = 150, -- Max number of lines moved before scrolling is skipped. Setting
+        scroll_limit = 150,        -- Max number of lines moved before scrolling is skipped. Setting
         -- to -1 will disable this option.
     })
 end
@@ -290,7 +286,8 @@ end
 local function setup_catppuccin()
     require("catppuccin").setup({
         flavour = "mocha", -- latte, frappe, macchiato, mocha
-        background = { -- :h background
+        background = {
+            -- :h background
             light = "latte",
             dark = "mocha",
         },
@@ -303,7 +300,7 @@ local function setup_catppuccin()
             percentage = 0.15,
         },
         no_italic = false, -- Force no italic
-        no_bold = false, -- Force no bold
+        no_bold = false,   -- Force no bold
         styles = {
             comments = { "italic" },
             conditionals = { "italic" },
@@ -338,9 +335,9 @@ local function setup_tokyonight()
     require("tokyonight").setup({
         -- your configuration comes here
         -- or leave it empty to use the default settings
-        style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-        light_style = "day", -- The theme is used when the background is set to light
-        transparent = true, -- Enable this to disable setting the background color
+        style = "night",        -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+        light_style = "day",    -- The theme is used when the background is set to light
+        transparent = true,     -- Enable this to disable setting the background color
         terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
         styles = {
             -- Style to be applied to different syntax groups
@@ -350,14 +347,14 @@ local function setup_tokyonight()
             functions = {},
             variables = {},
             -- Background styles. Can be "dark", "transparent" or "normal"
-            sidebars = "dark", -- style for sidebars, see below
-            floats = "dark", -- style for floating windows
+            sidebars = "dark",            -- style for sidebars, see below
+            floats = "dark",              -- style for floating windows
         },
-        sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-        day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+        sidebars = { "qf", "help" },      -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+        day_brightness = 0.3,             -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
         hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-        dim_inactive = false, -- dims inactive windows
-        lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
+        dim_inactive = false,             -- dims inactive windows
+        lualine_bold = false,             -- When `true`, section headers in the lualine theme will be bold
         --- You can override specific color groups to use other groups or a hex color
         --- function will be called with a ColorScheme table
         ---@param colors ColorScheme
@@ -372,6 +369,8 @@ local function setup_tokyonight()
     })
 
     vim.cmd.colorscheme 'tokyonight'
+
+    vim.cmd([[ hi! link lualine_c_inactive Comment ]])
 end
 
 local function setup_zen_mode()
@@ -383,7 +382,7 @@ local function setup_zen_mode()
             -- * a percentage of the width / height of the editor when <= 1
             -- * a function that returns the width or the height
             width = 0.65, -- width of the Zen window
-            height = 1, -- height of the Zen window
+            height = 1,   -- height of the Zen window
             -- by default, no options are changed for the Zen window
             -- uncomment any of the options below, or add other vim.wo options you want to apply
             options = {
@@ -401,12 +400,12 @@ local function setup_zen_mode()
             -- comment the lines to not apply the options
             options = {
                 enabled = true,
-                ruler = false, -- disables the ruler text in the cmd line area
-                showcmd = false, -- disables the command in the last line of the screen
+                ruler = false,              -- disables the ruler text in the cmd line area
+                showcmd = false,            -- disables the command in the last line of the screen
             },
             twilight = { enabled = false }, -- enable to start Twilight when zen mode opens
             gitsigns = { enabled = false }, -- disables git signs
-            tmux = { enabled = false }, -- disables the tmux statusline
+            tmux = { enabled = false },     -- disables the tmux statusline
             -- this will change the font size on kitty when in zen mode
             -- to make this work, you need to set the following kitty options:
             -- - allow_remote_control socket-only
@@ -439,10 +438,10 @@ local function setup_twilight()
             -- we try to get the foreground from the highlight groups or fallback color
             color = { "Normal", "#ffffff" },
             term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
-            inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
+            inactive = false,    -- when true, other windows will be fully dimmed (unless they contain the same buffer)
         },
-        context = 15, -- amount of lines we will try to show around the current line
-        treesitter = true, -- use treesitter when available for the filetype
+        context = 15,            -- amount of lines we will try to show around the current line
+        treesitter = true,       -- use treesitter when available for the filetype
         -- treesitter is used to automatically expand the visible text,
         -- but you can further control the types of nodes that should always be fully expanded
         expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
@@ -466,8 +465,8 @@ local function setup_telescope()
                     -- map actions.which_key to <C-h> (default: <C-/>)
                     -- actions.which_key shows the mappings for your picker,
                     -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-                    ["<C-x>"] = require("telescope.actions").delete_buffer,
-                    ["<C-d>"] = require("telescope.actions").select_horizontal
+                        ["<C-x>"] = require("telescope.actions").delete_buffer,
+                        ["<C-d>"] = require("telescope.actions").select_horizontal
                 }
             }
         },
@@ -514,23 +513,6 @@ function M.setup(configs)
     setup_zen_mode()
     setup_twilight()
     setup_telescope()
-
-    --    vim.cmd([[ hi! link lualine_c_inactive Comment ]])
-    --    vim.cmd([[ hi! link lualine_c_normal CursorLine ]])
-    --
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_normal CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_command CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_insert CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconDefault_replace CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_normal CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_command CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_insert CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_x_filetype_DevIconRs_replace CursorLine ]])
-    --
-    --    vim.cmd([[ hi! link lualine_y_filetype_DevIconDefault_normal CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_y_filetype_DevIconDefault_command CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_y_filetype_DevIconRs_normal CursorLine ]])
-    --    vim.cmd([[ hi! link lualine_y_filetype_DevIconRs_command CursorLine ]])
 end
 
 return M
