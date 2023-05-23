@@ -25,10 +25,10 @@ return require('packer').startup(function(use)
     use { 'RRethy/vim-illuminate' }
     use { 'numToStr/Comment.nvim' }
     use { 'lukas-reineke/indent-blankline.nvim' }
-    use { 'tamago324/lir.nvim' }
-    use { 'tamago324/lir-git-status.nvim' }
+    -- use { 'tamago324/lir.nvim' }
+    -- use { 'tamago324/lir-git-status.nvim' }
     use { 'elkowar/yuck.vim' }
-    use { 'elihunter173/dirbuf.nvim' }
+    -- use { 'elihunter173/dirbuf.nvim' }
     use { 'catppuccin/nvim', as = 'catppuccin' }
     use { 'folke/tokyonight.nvim' }
     use { 'folke/zen-mode.nvim' }
@@ -36,11 +36,7 @@ return require('packer').startup(function(use)
     use { 'declancm/cinnamon.nvim' }
     use { 'nvim-treesitter/playground' }
     use { 'beauwilliams/focus.nvim' }
-    use {
-        'famiu/bufdelete.nvim',
-        module = 'bufdelete',
-        cmd = { 'Bdelete', 'Bwipeout' }
-    }
+    use { 'famiu/bufdelete.nvim' }
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
         requires = {

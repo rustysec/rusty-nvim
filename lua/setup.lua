@@ -63,17 +63,17 @@ local function setup_completion()
             { name = 'cmp-path' },
         },
         mapping = cmp.mapping.preset.insert({
-                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                ['<C-Space>'] = cmp.mapping.complete(),
-                ['<C-e>'] = cmp.mapping.abort(),
-                ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-f>'] = cmp.mapping.scroll_docs(4),
+            ['<C-Space>'] = cmp.mapping.complete(),
+            ['<C-e>'] = cmp.mapping.abort(),
+            ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
     })
 end
 
 local function setup_lsp(configs)
-    local lsp_servers = { 'rust_analyzer', 'lua_ls', 'tsserver', 'omnisharp', 'gopls' }
+    local lsp_servers = { 'rust_analyzer', 'lua_ls', 'tsserver', 'csharp_ls', 'gopls' }
 
     require('mason-lspconfig').setup({
         ensure_installed = lsp_servers
@@ -86,11 +86,11 @@ local function setup_lsp(configs)
         select_symbol = function(cursor_pos, symbol)
             if symbol.valueRange then
                 local value_range = {
-                        ["start"] = {
+                    ["start"] = {
                         character = 0,
                         line = vim.fn.byte2line(symbol.valueRange[1])
                     },
-                        ["end"] = {
+                    ["end"] = {
                         character = 0,
                         line = vim.fn.byte2line(symbol.valueRange[2])
                     }
@@ -111,7 +111,88 @@ local function setup_lsp(configs)
 
     for _, lsp_server in pairs(lsp_servers) do
         local conf = configs.lsp[lsp_server] or {}
-        conf.on_attach = lsp_status.on_attach
+
+        conf.on_attach = function(client, _)
+            if client.name == "omnisharp" then
+                client.server_capabilities.semanticTokensProvider = {
+                    full = vim.empty_dict(),
+                    legend = {
+                        tokenModifiers = { "static_symbol" },
+                        tokenTypes = {
+                            "comment",
+                            "excluded_code",
+                            "identifier",
+                            "keyword",
+                            "keyword_control",
+                            "number",
+                            "operator",
+                            "operator_overloaded",
+                            "preprocessor_keyword",
+                            "string",
+                            "whitespace",
+                            "text",
+                            "static_symbol",
+                            "preprocessor_text",
+                            "punctuation",
+                            "string_verbatim",
+                            "string_escape_character",
+                            "class_name",
+                            "delegate_name",
+                            "enum_name",
+                            "interface_name",
+                            "module_name",
+                            "struct_name",
+                            "type_parameter_name",
+                            "field_name",
+                            "enum_member_name",
+                            "constant_name",
+                            "local_name",
+                            "parameter_name",
+                            "method_name",
+                            "extension_method_name",
+                            "property_name",
+                            "event_name",
+                            "namespace_name",
+                            "label_name",
+                            "xml_doc_comment_attribute_name",
+                            "xml_doc_comment_attribute_quotes",
+                            "xml_doc_comment_attribute_value",
+                            "xml_doc_comment_cdata_section",
+                            "xml_doc_comment_comment",
+                            "xml_doc_comment_delimiter",
+                            "xml_doc_comment_entity_reference",
+                            "xml_doc_comment_name",
+                            "xml_doc_comment_processing_instruction",
+                            "xml_doc_comment_text",
+                            "xml_literal_attribute_name",
+                            "xml_literal_attribute_quotes",
+                            "xml_literal_attribute_value",
+                            "xml_literal_cdata_section",
+                            "xml_literal_comment",
+                            "xml_literal_delimiter",
+                            "xml_literal_embedded_expression",
+                            "xml_literal_entity_reference",
+                            "xml_literal_name",
+                            "xml_literal_processing_instruction",
+                            "xml_literal_text",
+                            "regex_comment",
+                            "regex_character_class",
+                            "regex_anchor",
+                            "regex_quantifier",
+                            "regex_grouping",
+                            "regex_alternation",
+                            "regex_text",
+                            "regex_self_escaped_character",
+                            "regex_other_escape",
+                        },
+                    },
+                    range = true,
+                }
+            else
+                lsp_status.on_attach(client)
+            end
+        end
+
         conf.capabilities = capabilities
         require('lspconfig')[lsp_server].setup(conf)
     end
@@ -123,16 +204,16 @@ local function setup_which_key(config)
     wk.setup(config)
 
     wk.register({
-            ['<leader>g'] = {
+        ['<leader>g'] = {
             name = 'Goto...',
         },
-            ['<leader>f'] = {
+        ['<leader>f'] = {
             name = 'Find...',
         },
-            ['<leader>l'] = {
+        ['<leader>l'] = {
             name = 'LSP...',
         },
-            ['<leader>v'] = {
+        ['<leader>v'] = {
             name = 'Git...',
         },
     })
@@ -147,27 +228,27 @@ local function setup_lir()
         show_hidden_files = false,
         devicons = { enable = true },
         mappings = {
-                ['l'] = actions.edit,
-                ['<CR>'] = actions.edit,
-                ['<C-h>'] = actions.split,
-                ['<C-v>'] = actions.vsplit,
-                ['<C-t>'] = actions.tabedit,
-                ['h'] = actions.up,
-                ['q'] = actions.quit,
-                ['K'] = actions.mkdir,
-                ['N'] = actions.newfile,
-                ['R'] = actions.rename,
-                ['@'] = actions.cd,
-                ['Y'] = actions.yank_path,
-                ['.'] = actions.toggle_show_hidden,
-                ['D'] = actions.delete,
-                ['J'] = function()
+            ['l'] = actions.edit,
+            ['<CR>'] = actions.edit,
+            ['<C-h>'] = actions.split,
+            ['<C-v>'] = actions.vsplit,
+            ['<C-t>'] = actions.tabedit,
+            ['h'] = actions.up,
+            ['q'] = actions.quit,
+            ['K'] = actions.mkdir,
+            ['N'] = actions.newfile,
+            ['R'] = actions.rename,
+            ['@'] = actions.cd,
+            ['Y'] = actions.yank_path,
+            ['.'] = actions.toggle_show_hidden,
+            ['D'] = actions.delete,
+            ['J'] = function()
                 mark_actions.toggle_mark("n")
                 vim.cmd('normal! j')
             end,
-                ['yy'] = clipboard_actions.copy,
-                ['dd'] = clipboard_actions.cut,
-                ['p'] = clipboard_actions.paste,
+            ['yy'] = clipboard_actions.copy,
+            ['dd'] = clipboard_actions.cut,
+            ['p'] = clipboard_actions.paste,
         },
         float = {
             winblend = 0,
@@ -208,36 +289,6 @@ local function setup_lir()
     }
 
     require('lir.git_status').setup()
-end
-
-local function setup_leaf()
-    local colors = require("leaf.colors").setup()
-
-    require("leaf").setup({
-        underlineStyle = "undercurl",
-        commentStyle = "NONE",
-        functionStyle = "NONE",
-        keywordStyle = "italic",
-        statementStyle = "bold",
-        typeStyle = "NONE",
-        variablebuiltinStyle = "italic",
-        transparent = true,
-        colors = {
-            bg_normal = "NONE",
-        },
-        overrides = {
-            TelescopeBorder = { link = "Normal" },
-            WinSeparator = { link = "Comment" },
-            FloatTitle = { link = "Warning" },
-            FloatBoarder = { link = "Warning" },
-            Float = { fg = colors.fg_normal, bg = "NONE", },
-            lualine_c_normal = { link = "CursorLine" },
-        },
-        theme = "dark",    -- default, based on vim.o.background, alternatives: "light", "dark"
-        contrast = "high", -- default, alternatives: "medium", "high"
-    })
-
-    vim.cmd("colorscheme leaf")
 end
 
 local function setup_cinnamon()
@@ -465,8 +516,8 @@ local function setup_telescope()
                     -- map actions.which_key to <C-h> (default: <C-/>)
                     -- actions.which_key shows the mappings for your picker,
                     -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-                        ["<C-x>"] = require("telescope.actions").delete_buffer,
-                        ["<C-d>"] = require("telescope.actions").select_horizontal
+                    ["<C-x>"] = require("telescope.actions").delete_buffer,
+                    ["<C-d>"] = require("telescope.actions").select_horizontal
                 }
             }
         },
@@ -508,7 +559,7 @@ function M.setup(configs)
     setup_auto_format()
     setup_cinnamon()
     setup_which_key(configs['which-key'])
-    setup_dirbuf()
+    -- setup_dirbuf()
     setup_tokyonight()
     setup_zen_mode()
     setup_twilight()
